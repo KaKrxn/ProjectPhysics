@@ -6,12 +6,15 @@ public class DestroyOB : MonoBehaviour
     public float EndPointZ;
     public float TimeDestroy;
     public int damage = 10;
+    public int Point = 0;
 
-    public ParticleSystem[] explosionParticle;
+    //private PYController PYController;
+
+    //public ParticleSystem[] explosionParticle;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //PYController = GameObject.Find("PYController").GetComponent<PYController>();
     }
 
     // Update is called once per frame
@@ -46,5 +49,12 @@ public class DestroyOB : MonoBehaviour
             {
                 playerHealth.TakeDamage(damage); // สร้างดาเมจให้ Player
             }
+
+        //if (other.CompareTag("Missile"))
+        //{
+        //    int idx = Random.Range(0, Point);
+        //    PYController.UpdateScore(idx);
+            
+        //}
     }
 }

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "229E-Itthichai.faen-airplane-main.sln"
+    "dotnet.defaultSolution": "ProjectPhysics.sln"
 }
