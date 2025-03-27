@@ -25,14 +25,19 @@ public class PYController : MonoBehaviour
     private InputAction moveAction;
     private InputAction shootAction;
     private InputAction lockTargetAction;
+    private InputAction SwitchCam;
     private float horizontalInput;
     private float verticalInput;
 
     [Header("Text")]
     public TextMeshProUGUI scoreText;
     private int score;
-
     public Slider HealthBar;
+
+    [Header("Camera")]
+    public GameObject cameraRef;
+    private int countPress = 0;
+    private bool isCameraOn = true;
     [SerializeField] Rigidbody RB;
 
     private void Awake()
@@ -43,19 +48,34 @@ public class PYController : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         shootAction = InputSystem.actions.FindAction("Shoot");
         lockTargetAction = InputSystem.actions.FindAction("LockTarget");
+        SwitchCam = InputSystem.actions.FindAction("SwitchCam");
+
         RB = GetComponent<Rigidbody>();
+        //cameraRef = GameObject.Find("CameraPlayer").GetComponent<CameraFollowerV2>();
     }
 
     private void OnEnable()
     {
         shootAction.started += ShootMissile;
         lockTargetAction.started += LockTarget;
+        SwitchCam.Enable();
     }
 
     private void OnDisable()
     {
         shootAction.started -= ShootMissile;
         lockTargetAction.started -= LockTarget;
+        SwitchCam.Disable();
+    }
+
+    void Update()
+    {
+        if (SwitchCam.triggered) // ตรวจจับการกดปุ่ม
+        {
+            isCameraOn = !isCameraOn; // สลับค่า true/false
+            cameraRef.SetActive(isCameraOn); // เปิด-ปิดกล้อง
+            Debug.Log(isCameraOn ? "Open Camera" : "Close Camera");
+        }
     }
 
     void FixedUpdate()
@@ -67,6 +87,8 @@ public class PYController : MonoBehaviour
         RB.AddForce(horizontalInput * MoveSpeed * Time.deltaTime * Vector3.right);
         RB.AddForce(verticalInput * MoveSpeed * Time.deltaTime * Vector3.down);
 
+        
+        
         RollShip();  // เพิ่มการหมุนเครื่องบิน
         PitchShip(); // เพิ่มการเอียงเครื่องบิน
         FixYRotation(); // แก้ไขการหมุนในแกน Y
@@ -162,7 +184,9 @@ public class PYController : MonoBehaviour
         Debug.Log("Player HP: " + currentHP);
         if (currentHP <= 0)
         {
+            
             Debug.Log("Player Died!");
+            Destroy(gameObject,2f);
         }
     }
 
@@ -187,6 +211,19 @@ public class PYController : MonoBehaviour
         scoreText.text = this.score.ToString();
 
     }
+
+    void SwitchCamera()
+    {
+        // if (SwitchCam.wasPressedThisFrame) // ใช้ wasPressedThisFrame เพื่อให้ทำงานครั้งเดียวต่อการกด
+        // {
+        //     countPress = 1 - countPress; // สลับค่า 0 ↔ 1
+        //     cameraRef.SetActive(countPress == 1); // เปิด-ปิดกล้องตามค่า countPress
+
+        //     Debug.Log(countPress == 1 ? "Open Camera" : "Close Camera");
+        // }
+    }
+
+    
 
 
 

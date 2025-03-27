@@ -4,7 +4,6 @@ public class SpawnManager : MonoBehaviour
 {
      // [1] declare a public GameObject array for animal prefabs
     public GameObject[] Obstacle;
-    // [2] declare a public int variable for animal index for testing instantiation
     private int ObstacleIndex;
     public float spawnRangeX = 15;
     public float spawnRangeY = 15;
