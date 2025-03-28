@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public class DestroyOB : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class DestroyOB : MonoBehaviour
     public float TimeDestroy;
     public int damage = 10;
     public int Point = 0;
+    public  event Action<GameObject> OnDestroyEvent;
 
     //private PYController PYController;
 
@@ -56,5 +58,13 @@ public class DestroyOB : MonoBehaviour
         //    PYController.UpdateScore(idx);
             
         //}
+    }
+
+     void OnDestroy()
+    {
+        if (OnDestroyEvent != null)
+        {
+            OnDestroyEvent(gameObject); // เรียก event และส่ง GameObject กลับไป
+        }
     }
 }
